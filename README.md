@@ -1,8 +1,8 @@
 <<<<<<< HEAD
-# IS-601-homework 3 & 4
+# IS-601-homework 4
 <<<<<<< HEAD
 =======
-# IS-601 Homework 3 & 4
+# IS-601 Homework 4
 
 # Performed Testing
 
