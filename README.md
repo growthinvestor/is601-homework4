@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# IS-601-homework 4
-<<<<<<< HEAD
-=======
 # IS-601 Homework 4
 
 # Performed Testing Using Test Data and User Inputs
