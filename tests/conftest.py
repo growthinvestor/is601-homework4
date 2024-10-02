@@ -13,29 +13,33 @@ def generate_test_data(num_records):
         'subtract': subtract,
         'multiply': multiply,
         'divide': divide,
-        'modulus': modulus,          
+        'modulus': modulus,
         'exponentiate': exponentiate
     }
+    
     # Generate test data
     for _ in range(num_records):
         a = Decimal(fake.random_number(digits=2))
         b = Decimal(fake.random_number(digits=2)) if _ % 4 != 3 else Decimal(fake.random_number(digits=1))
         operation_name = fake.random_element(elements=list(operation_mappings.keys()))
         operation_func = operation_mappings[operation_name]
-        
-        # Ensure b is not zero for divide operation to prevent division by zero in expected calculation
-        if operation_func == divide:
+
+        # Ensure b is not zero for divide and modulus operations
+        if operation_func in [divide, modulus]:
             b = Decimal('1') if b == Decimal('0') else b
-        
+
         try:
-            if operation_func == divide and b == Decimal('0'):
-                expected = "ZeroDivisionError"
-            else:
-                expected = operation_func(a, b)
+            expected = operation_func(a, b)
         except ZeroDivisionError:
             expected = "ZeroDivisionError"
-        
+        except ValueError as ve:
+            if str(ve) == "Cannot divide by zero":
+                expected = "Cannot divide by zero"
+            else:
+                raise ve  # Re-raise other value errors not related to divide by zero
+
         yield a, b, operation_name, operation_func, expected
+
 
 def pytest_addoption(parser):
     parser.addoption("--num_records", action="store", default=5, type=int, help="Number of test records to generate")
